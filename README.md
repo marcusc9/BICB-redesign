@@ -17,7 +17,7 @@ You can also double-click those two files in Finder.
 Use these from the project folder:
 
 ```bash
-cd "/Users/marcusc/Documents/codex/BICB redesign/BICB-redesign-staging"
+cd "/Users/marcusc/Documents/codex/BICB-redesign-staging"
 ```
 
 Pull the latest work:
@@ -63,7 +63,7 @@ Codex shows `Environment -> Changes -> Commit or push` only when the Codex proje
 Open this folder as the Codex project:
 
 ```bash
-BICB-redesign
+BICB-redesign-staging
 ```
 
 Do not open the older parent folder:
