@@ -275,7 +275,7 @@ export const eventArchive: EventItem[] = [
 ];
 
 export const schemes = {
-  title: "Summer Schemes",
+  title: "Placeholder",
   summary:
     "Two inspiring weekends of workshops, arts, sports and service activities for children and teens, focused on making good choices and creating a beautiful environment.",
   image: "/images/summer-schemes.jpeg",
