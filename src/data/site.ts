@@ -90,7 +90,7 @@ export const contactPoints: ContactPoint[] = [
     href: "tel:+447859034984"
   },
   {
-    name: "New neighbourhood",
+    name: "Gorton",
     phone: "07916 797677",
     href: "tel:+447916797677"
   }
