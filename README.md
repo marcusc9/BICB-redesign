@@ -5,6 +5,15 @@ Next.js prototype for moving the Bahá'í Institute for Community Building - Man
 <details>
 <summary><strong>Daily GitHub Flow</strong></summary>
 
+Easiest option on macOS:
+
+```bash
+open scripts/pull-latest.command
+open scripts/save-and-push.command
+```
+
+You can also double-click those two files in Finder.
+
 Use these from the project folder:
 
 ```bash
@@ -43,6 +52,27 @@ Host github.com-bicb
   IdentityFile ~/.ssh/bicb_github_ed25519
   IdentitiesOnly yes
 ```
+
+</details>
+
+<details>
+<summary><strong>Codex Environment Button</strong></summary>
+
+Codex shows `Environment -> Changes -> Commit or push` only when the Codex project folder is the Git repo root.
+
+Open this folder as the Codex project:
+
+```bash
+BICB-redesign
+```
+
+Do not open the older parent folder:
+
+```bash
+BICB redesign
+```
+
+That parent folder contains previews and archive material, so Codex will not treat the clean staging repo as the active Git environment.
 
 </details>
 
