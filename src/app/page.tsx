@@ -2,6 +2,8 @@ import { Mail, Phone } from "lucide-react";
 import Link from "next/link";
 import { ButtonLink } from "@/components/button-link";
 import { Hero } from "@/components/hero";
+import { NeighbourhoodScrollStory } from "@/components/neighbourhood-scroll-story";
+import { PhotoPlaceholder } from "@/components/photo-placeholder";
 import { SectionHeading } from "@/components/section-heading";
 import { contactPoints, programmes, schemes, site, values } from "@/data/site";
 
@@ -24,6 +26,47 @@ export default function Home() {
         title="Building a Better World Together"
       />
 
+      <section className="about-section" id="about">
+        <div className="about-shell">
+          <div className="about-intro">
+            <p className="eyebrow">Who we are</p>
+            <h2>Learning, serving and growing together</h2>
+            <p className="lead">
+              The Bahá&apos;í Institute for Community Building offers educational programmes for
+              people of all ages and backgrounds across Manchester.
+            </p>
+            <p>
+              Through the moral and spiritual education of children and teenagers—and
+              opportunities for youth and adults to develop their capacity for service—the
+              programmes help neighbours build vibrant, united communities. At their heart is a
+              shared process of individual and collective growth: learning together, strengthening
+              relationships and contributing to the transformation of neighbourhood life.
+            </p>
+            <PhotoPlaceholder label="Community photograph to come" variant="about" />
+          </div>
+
+          <aside className="inspiration-card" aria-labelledby="inspiration-title">
+            <p className="eyebrow eyebrow--light">Our inspiration</p>
+            <h3 id="inspiration-title">Growing ourselves while serving others</h3>
+            <p>
+              The programmes draw on educational materials developed by the Ruhi Institute and
+              used around the world. They invite participants to nurture their own spiritual and
+              intellectual growth while contributing to the transformation of society.
+            </p>
+            <p>
+              Inspired by the Writings of Bahá&apos;u&apos;lláh and the principles of the Bahá&apos;í
+              Faith—especially the oneness of humanity—the programmes are open to and enriched by
+              people from every background.
+            </p>
+            <div className="inspiration-links" aria-label="Find out more">
+              <a href="https://www.bahai.org/bahaullah/">Learn about Bahá&apos;u&apos;lláh</a>
+              <a href="https://www.bahai.org/">Explore the Bahá&apos;í Faith</a>
+              <a href="https://www.manchesterbahais.org.uk/">Manchester Bahá&apos;í community</a>
+            </div>
+          </aside>
+        </div>
+      </section>
+
       <section className="pathway-section" id="programmes">
         <div className="pathway-shell">
           <div className="pathway-intro">
@@ -38,6 +81,10 @@ export default function Home() {
           <div className="pathway-grid">
             {programmes.map((programme) => (
               <article className="pathway-item" key={programme.slug}>
+                <PhotoPlaceholder
+                  label={`${programme.title} photograph to come`}
+                  variant="programme"
+                />
                 <span className="pathway-item__meta">{programme.ageRange}</span>
                 <h3>{programme.title}</h3>
                 <p>{programme.summary}</p>
@@ -54,16 +101,18 @@ export default function Home() {
         <div className="section__inner">
           <div className="cta-band">
             <div>
-              <p className="eyebrow eyebrow--light">Weekly Activities</p>
+              <p className="eyebrow eyebrow--light">Holiday schemes</p>
               <h2>{schemes.title}</h2>
               <p>{schemes.summary}</p>
             </div>
             <ButtonLink href="/schemes" variant="primary">
-              View schemes
+              View holiday schemes
             </ButtonLink>
           </div>
         </div>
       </section>
+
+      <NeighbourhoodScrollStory />
 
       <section className="section service-section" id="service">
         <div className="section-heading section-heading--center">
@@ -79,18 +128,24 @@ export default function Home() {
         </div>
         <div className="testimony-grid">
           <article className="testimony-card">
-            <p className="testimony-card__label">Testimony placeholder</p>
-            <blockquote>
-              Add a short reflection from a parent, young person or volunteer about what changed
-              for them through the programme.
-            </blockquote>
+            <PhotoPlaceholder label="Portrait photograph to come" variant="portrait" />
+            <div>
+              <p className="testimony-card__label">Testimony placeholder</p>
+              <blockquote>
+                Add a short reflection from a parent, young person or volunteer about what changed
+                for them through the programme.
+              </blockquote>
+            </div>
           </article>
           <article className="testimony-card">
-            <p className="testimony-card__label">Testimony placeholder</p>
-            <blockquote>
-              Add a second lived experience here to show the human effect of service, friendship
-              and accompaniment.
-            </blockquote>
+            <PhotoPlaceholder label="Portrait photograph to come" variant="portrait" />
+            <div>
+              <p className="testimony-card__label">Testimony placeholder</p>
+              <blockquote>
+                Add a second lived experience here to show the human effect of service, friendship
+                and accompaniment.
+              </blockquote>
+            </div>
           </article>
         </div>
       </section>

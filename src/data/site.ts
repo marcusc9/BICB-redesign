@@ -44,7 +44,6 @@ export type ContactPoint = {
 
 export const site = {
   name: "Bahá'í Institute for Community Building",
-  shortName: "BICB Manchester",
   location: "Manchester",
   email: "communitybuildingmcr@gmail.com",
   instagram: "https://www.instagram.com/communitybuildingmcr/",
@@ -58,8 +57,16 @@ export const navItems = [
   { label: "Home", href: "/" },
   { label: "Programmes", href: "/programmes" },
   { label: "Get Involved", href: "/get-involved" },
-  { label: "Events", href: "/events" },
-  { label: "Schemes", href: "/schemes" },
+  {
+    label: "Events",
+    href: "/events",
+    children: [
+      { label: "Weekly activities", href: "/events#weekly-activities" },
+      { label: "Holiday schemes", href: "/schemes" },
+      { label: "Residential camps", href: "/events#residential-camps" },
+      { label: "Other events", href: "/events#other-events" }
+    ]
+  },
   { label: "Contact", href: "/contact" }
 ];
 

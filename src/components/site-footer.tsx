@@ -7,18 +7,29 @@ export function SiteFooter() {
     <footer className="site-footer">
       <div className="site-footer__top">
         <div>
-          <h2>{site.shortName}</h2>
+          <h2>{site.name}</h2>
           <p>
             Educational programmes for people from all backgrounds and ages in Manchester,
             offered under the auspices of the Local Spiritual Assembly of the Bahá'ís of Manchester.
           </p>
         </div>
         <div className="footer-links" aria-label="Footer navigation">
-          {navItems.map((item) => (
-            <Link href={item.href} key={item.href}>
-              {item.label}
-            </Link>
-          ))}
+          {navItems.map((item) =>
+            item.children ? (
+              <div className="footer-link-group" key={item.href}>
+                <Link href={item.href}>{item.label}</Link>
+                {item.children.map((child) => (
+                  <Link className="footer-sublink" href={child.href} key={child.href}>
+                    {child.label}
+                  </Link>
+                ))}
+              </div>
+            ) : (
+              <Link href={item.href} key={item.href}>
+                {item.label}
+              </Link>
+            )
+          )}
         </div>
         <div className="footer-actions">
           <a href={`mailto:${site.email}`}>

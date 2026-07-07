@@ -18,13 +18,13 @@ export default function EventsPage() {
         <div className="page-hero__inner">
           <div>
             <p className="eyebrow">Events</p>
-            <h1>Camps, festivals, seminars and community spaces</h1>
+            <h1>Weekly activities, holiday schemes, camps and events</h1>
             <p className="page-hero__copy">
               Alongside weekly activities, the community building process includes larger spaces for
               prayer, food, learning, service and family life.
             </p>
             <div className="button-row">
-              <ButtonLink href="/schemes">Current schemes</ButtonLink>
+              <ButtonLink href="#weekly-activities">Explore events</ButtonLink>
               <ButtonLink href="/events/archive" variant="secondary">
                 Event archive
               </ButtonLink>
@@ -42,21 +42,37 @@ export default function EventsPage() {
         </div>
       </section>
 
-      <section className="section">
-        <div className="split">
-          <div>
-            <SectionHeading eyebrow="Upcoming" title="Current listing" />
-            <p className="lead">
-              There are no standalone event listings at the moment. The current public activity focus
-              is the Summer Schemes programme.
-            </p>
-          </div>
-          <article className="info-card">
-            <h3>{schemes.title}</h3>
+      <section className="section" id="weekly-activities">
+        <SectionHeading eyebrow="What is happening" title="Ways to take part throughout the year">
+          <p>
+            Find regular neighbourhood activities, school-holiday programmes, residential camps
+            and one-off gatherings in one place.
+          </p>
+        </SectionHeading>
+        <div className="grid grid--2 event-category-grid">
+          <article className="info-card event-category-card">
+            <p className="eyebrow">Every week</p>
+            <h3>Weekly activities</h3>
+            <p>Children&apos;s classes, junior youth groups, study circles and opportunities to serve.</p>
+            <ButtonLink href="/programmes" variant="secondary">Explore programmes</ButtonLink>
+          </article>
+          <article className="info-card event-category-card">
+            <p className="eyebrow">School holidays</p>
+            <h3>Holiday schemes</h3>
             <p>{schemes.summary}</p>
-            <ButtonLink href="/schemes" variant="secondary">
-              View scheme details
-            </ButtonLink>
+            <ButtonLink href="/schemes" variant="secondary">View holiday schemes</ButtonLink>
+          </article>
+          <article className="info-card event-category-card" id="residential-camps">
+            <p className="eyebrow">Time away together</p>
+            <h3>Residential camps</h3>
+            <p>Shared spaces for learning, friendship, family life and building capacity for service.</p>
+            <ButtonLink href="/events/archive" variant="secondary">Browse recent camps</ButtonLink>
+          </article>
+          <article className="info-card event-category-card" id="other-events">
+            <p className="eyebrow">Gatherings</p>
+            <h3>Other events</h3>
+            <p>Festivals, seminars, conferences and neighbourhood gatherings across Manchester.</p>
+            <ButtonLink href="/events/archive" variant="secondary">Browse other events</ButtonLink>
           </article>
         </div>
       </section>
