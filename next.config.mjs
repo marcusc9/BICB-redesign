@@ -23,25 +23,40 @@ const oldEventRoutes = [
   "/event-details/north-of-england-conference"
 ];
 
+const isGithubPages = process.env.GITHUB_PAGES === "true";
+const githubPagesBasePath = "/BICB-redesign";
+
+const redirectsConfig = isGithubPages
+  ? {}
+  : {
+      async redirects() {
+        return [
+          { source: "/about-us", destination: "/about", permanent: true },
+          { source: "/childrens-class-programme", destination: "/programmes/children", permanent: true },
+          { source: "/junior-youth-programme", destination: "/programmes/junior-youth", permanent: true },
+          { source: "/youth-mentors-and-volunteers", destination: "/get-involved/youth", permanent: true },
+          { source: "/adult-volunteers-and-training", destination: "/get-involved/adults", permanent: true },
+          { source: "/key-events", destination: "/events", permanent: true },
+          { source: "/ardwick-calendar", destination: "/calendar/ardwick", permanent: true },
+          { source: "/contact-9", destination: "/contact", permanent: true },
+          ...oldEventRoutes.map((source) => ({
+            source,
+            destination: "/events/archive",
+            permanent: true
+          }))
+        ];
+      }
+    };
+
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  async redirects() {
-    return [
-      { source: "/about-us", destination: "/about", permanent: true },
-      { source: "/childrens-class-programme", destination: "/programmes/children", permanent: true },
-      { source: "/junior-youth-programme", destination: "/programmes/junior-youth", permanent: true },
-      { source: "/youth-mentors-and-volunteers", destination: "/get-involved/youth", permanent: true },
-      { source: "/adult-volunteers-and-training", destination: "/get-involved/adults", permanent: true },
-      { source: "/key-events", destination: "/events", permanent: true },
-      { source: "/ardwick-calendar", destination: "/calendar/ardwick", permanent: true },
-      { source: "/contact-9", destination: "/contact", permanent: true },
-      ...oldEventRoutes.map((source) => ({
-        source,
-        destination: "/events/archive",
-        permanent: true
-      }))
-    ];
-  }
+  output: isGithubPages ? "export" : undefined,
+  basePath: isGithubPages ? githubPagesBasePath : undefined,
+  trailingSlash: isGithubPages ? true : undefined,
+  images: {
+    unoptimized: isGithubPages
+  },
+  ...redirectsConfig
 };
 
 export default nextConfig;

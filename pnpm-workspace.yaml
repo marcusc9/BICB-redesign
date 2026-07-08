@@ -1,6 +1,9 @@
 packages:
   - "."
 
+overrides:
+  caniuse-lite: 1.0.30001803
+
 allowBuilds:
   sharp: true
   unrs-resolver: true
