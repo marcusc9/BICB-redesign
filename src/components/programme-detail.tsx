@@ -3,6 +3,7 @@ import Link from "next/link";
 import { ButtonLink } from "@/components/button-link";
 import type { Programme } from "@/data/site";
 import { programmes } from "@/data/site";
+import { withBasePath } from "@/lib/base-path";
 
 type ProgrammeDetailProps = {
   programme: Programme;
@@ -43,7 +44,7 @@ export function ProgrammeDetail({ programme }: ProgrammeDetailProps) {
               fill
               priority
               sizes="(max-width: 920px) 100vw, 44vw"
-              src={programme.image}
+              src={withBasePath(programme.image)}
             />
           </div>
         </div>

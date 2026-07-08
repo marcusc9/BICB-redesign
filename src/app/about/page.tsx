@@ -3,6 +3,7 @@ import Image from "next/image";
 import { ButtonLink } from "@/components/button-link";
 import { SectionHeading } from "@/components/section-heading";
 import { programmes } from "@/data/site";
+import { withBasePath } from "@/lib/base-path";
 
 export const metadata: Metadata = {
   title: "About Us",
@@ -30,7 +31,7 @@ export default function AboutPage() {
               fill
               priority
               sizes="(max-width: 920px) 100vw, 44vw"
-              src="/images/about-community.jpg"
+              src={withBasePath("/images/about-community.jpg")}
             />
           </div>
         </div>

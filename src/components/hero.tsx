@@ -1,5 +1,6 @@
 import Image from "next/image";
 import { ButtonLink } from "@/components/button-link";
+import { withBasePath } from "@/lib/base-path";
 
 type HeroProps = {
   eyebrow?: string;
@@ -32,7 +33,7 @@ export function Hero({
 }: HeroProps) {
   return (
     <section className="hero">
-      <Image alt={imageAlt} className="hero__image" fill priority sizes="100vw" src={image} />
+      <Image alt={imageAlt} className="hero__image" fill priority sizes="100vw" src={withBasePath(image)} />
       <div className="hero__overlay" />
       <div className="hero__content">
         {eyebrow ? <p className="eyebrow eyebrow--light">{eyebrow}</p> : null}

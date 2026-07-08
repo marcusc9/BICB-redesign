@@ -2,6 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import type { Programme } from "@/data/site";
 import { ButtonLink } from "@/components/button-link";
+import { withBasePath } from "@/lib/base-path";
 
 type ProgrammeCardProps = {
   programme: Programme;
@@ -14,7 +15,7 @@ export function ProgrammeCard({ programme, href }: ProgrammeCardProps) {
   return (
     <article className="programme-card">
       <Link aria-label={`Learn more about ${programme.title}`} className="programme-card__media" href={href}>
-        <Image alt={`${programme.title} in Manchester`} fill sizes="(max-width: 760px) 100vw, 50vw" src={programme.image} />
+        <Image alt={`${programme.title} in Manchester`} fill sizes="(max-width: 760px) 100vw, 50vw" src={withBasePath(programme.image)} />
       </Link>
       <div className="programme-card__body">
         <div className="programme-card__meta">

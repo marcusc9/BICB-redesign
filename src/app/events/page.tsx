@@ -4,6 +4,7 @@ import { ButtonLink } from "@/components/button-link";
 import { EventCard } from "@/components/event-card";
 import { SectionHeading } from "@/components/section-heading";
 import { eventArchive, schemes } from "@/data/site";
+import { withBasePath } from "@/lib/base-path";
 
 export const metadata: Metadata = {
   title: "Events",
@@ -36,7 +37,7 @@ export default function EventsPage() {
               fill
               priority
               sizes="(max-width: 920px) 100vw, 44vw"
-              src="/images/community-event.jpg"
+              src={withBasePath("/images/community-event.jpg")}
             />
           </div>
         </div>

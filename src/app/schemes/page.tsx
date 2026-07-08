@@ -4,6 +4,7 @@ import { MessageCircle } from "lucide-react";
 import { ButtonLink } from "@/components/button-link";
 import { SectionHeading } from "@/components/section-heading";
 import { registrationLinks, schemes } from "@/data/site";
+import { withBasePath } from "@/lib/base-path";
 
 export const metadata: Metadata = {
   title: "Schemes",
@@ -36,7 +37,7 @@ export default function SchemesPage() {
               fill
               priority
               sizes="(max-width: 920px) 100vw, 44vw"
-              src={schemes.image}
+              src={withBasePath(schemes.image)}
             />
           </div>
         </div>

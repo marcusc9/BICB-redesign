@@ -6,6 +6,7 @@ import { ChevronDown, Menu, X } from "lucide-react";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
 import { navItems, site } from "@/data/site";
+import { withBasePath } from "@/lib/base-path";
 
 export function SiteHeader() {
   const pathname = usePathname();
@@ -14,7 +15,7 @@ export function SiteHeader() {
   return (
     <header className="site-header">
       <Link className="site-logo" href="/" onClick={() => setOpen(false)}>
-        <Image alt="" height={56} priority src="/images/bicb-logo.png" width={56} />
+        <Image alt="" height={56} priority src={withBasePath("/images/bicb-logo.png")} width={56} />
         <span>
           <strong>{site.name} - {site.location}</strong>
         </span>

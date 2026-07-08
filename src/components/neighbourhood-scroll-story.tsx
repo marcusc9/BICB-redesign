@@ -1,5 +1,6 @@
 import Image from "next/image";
 import { ButtonLink } from "@/components/button-link";
+import { withBasePath } from "@/lib/base-path";
 
 const activityStories = [
   {
@@ -55,7 +56,7 @@ export function NeighbourhoodScrollStory() {
               alt="Children and adults taking part in a community activity in Manchester"
               fill
               sizes="(max-width: 920px) 50vw, 42vw"
-              src="/images/about-community.jpg"
+              src={withBasePath("/images/about-community.jpg")}
             />
             <figcaption>
               <span>Neighbourhood one</span>
@@ -67,7 +68,7 @@ export function NeighbourhoodScrollStory() {
               alt="Friends gathered together at a community event in Manchester"
               fill
               sizes="(max-width: 920px) 50vw, 42vw"
-              src="/images/community-event.jpg"
+              src={withBasePath("/images/community-event.jpg")}
             />
             <figcaption>
               <span>Neighbourhood two</span>

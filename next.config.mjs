@@ -53,6 +53,9 @@ const nextConfig = {
   output: isGithubPages ? "export" : undefined,
   basePath: isGithubPages ? githubPagesBasePath : undefined,
   trailingSlash: isGithubPages ? true : undefined,
+  env: {
+    NEXT_PUBLIC_BASE_PATH: isGithubPages ? githubPagesBasePath : ""
+  },
   images: {
     unoptimized: isGithubPages
   },
