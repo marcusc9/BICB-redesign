@@ -1,0 +1,4 @@
+:HL["/BICB-redesign/_next/static/chunks/3fwc6j3z9xbn8.css","style"]
+:HL["/BICB-redesign/_next/static/media/01e4147cff8141ee-s.p.3huc2loe0ie8a.woff2","font",{"crossOrigin":"","type":"font/woff2"}]
+:HL["/BICB-redesign/_next/static/media/47df9ba1c7236d3b-s.p.137759vg1sbmi.woff2","font",{"crossOrigin":"","type":"font/woff2"}]
+0:{"tree":{"name":"","param":null,"prefetchHints":16,"slots":{"children":{"name":"programmes","param":null,"prefetchHints":0,"slots":{"children":{"name":"children","param":null,"prefetchHints":0,"slots":{"children":{"name":"__PAGE__","param":null,"prefetchHints":0,"slots":null}}}}}}},"staleTime":300,"buildId":"3CRnTbKZVr4Gw9D0edrCB"}
