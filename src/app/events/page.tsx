@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import { ButtonLink } from "@/components/button-link";
 import { EventCard } from "@/components/event-card";
+import { Hero } from "@/components/hero";
 import { SectionHeading } from "@/components/section-heading";
 import { eventArchive, schemes } from "@/data/site";
 import { withBasePath } from "@/lib/base-path";
@@ -15,33 +16,17 @@ export const metadata: Metadata = {
 export default function EventsPage() {
   return (
     <>
-      <section className="page-hero">
-        <div className="page-hero__inner">
-          <div>
-            <p className="eyebrow">Events</p>
-            <h1>Weekly activities, holiday schemes, camps and events</h1>
-            <p className="page-hero__copy">
-              Alongside weekly activities, the community building process includes larger spaces for
-              prayer, food, learning, service and family life.
-            </p>
-            <div className="button-row">
-              <ButtonLink href="#weekly-activities">Explore events</ButtonLink>
-              <ButtonLink href="/events/archive" variant="secondary">
-                Event archive
-              </ButtonLink>
-            </div>
-          </div>
-          <div className="page-hero__image">
-            <Image
-              alt="Friends gathered for a community building event"
-              fill
-              priority
-              sizes="(max-width: 920px) 100vw, 44vw"
-              src={withBasePath("/images/community-event.jpg")}
-            />
-          </div>
-        </div>
-      </section>
+      <div className="events-hero">
+        <Hero
+          copy="Alongside weekly activities, the community building process includes larger spaces for prayer, food, learning, service and family life."
+          eyebrow="Events"
+          image="/images/events-hero.jpg"
+          imageAlt="Children enjoying an outdoor team activity together"
+          primaryCta={{ label: "Explore events", href: "#weekly-activities" }}
+          secondaryCta={{ label: "Event archive", href: "/events/archive" }}
+          title="Weekly activities, holiday schemes, camps and events"
+        />
+      </div>
 
       <section className="section" id="weekly-activities">
         <SectionHeading eyebrow="What is happening" title="Ways to take part throughout the year">
@@ -63,11 +48,23 @@ export default function EventsPage() {
             <p>{schemes.summary}</p>
             <ButtonLink href="/schemes" variant="secondary">View holiday schemes</ButtonLink>
           </article>
-          <article className="info-card event-category-card" id="residential-camps">
-            <p className="eyebrow">Time away together</p>
-            <h3>Residential camps</h3>
-            <p>Shared spaces for learning, friendship, family life and building capacity for service.</p>
-            <ButtonLink href="/events/archive" variant="secondary">Browse recent camps</ButtonLink>
+          <article
+            className="info-card event-category-card event-category-card--with-image"
+            id="residential-camps"
+          >
+            <div className="event-category-card__media">
+              <Image
+                alt="Young people walking together through the countryside during a residential camp"
+                fill
+                sizes="(max-width: 920px) 100vw, 50vw"
+                src={withBasePath("/images/residential-camps.jpg")}
+              />
+            </div>
+            <div className="event-category-card__body">
+              <h3>Residential camps</h3>
+              <p>Shared spaces for learning, friendship, consultation and building capacity for service.</p>
+              <ButtonLink href="/events/archive" variant="secondary">Browse recent camps</ButtonLink>
+            </div>
           </article>
           <article className="info-card event-category-card" id="other-events">
             <p className="eyebrow">Gatherings</p>

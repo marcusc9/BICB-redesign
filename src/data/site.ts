@@ -61,8 +61,8 @@ export const navItems = [
     label: "Events",
     href: "/events",
     children: [
-      { label: "Weekly activities", href: "/events#weekly-activities" },
       { label: "Holiday schemes", href: "/schemes" },
+      { label: "Weekly activities", href: "/events#weekly-activities" },
       { label: "Residential camps", href: "/events#residential-camps" },
       { label: "Other events", href: "/events#other-events" }
     ]

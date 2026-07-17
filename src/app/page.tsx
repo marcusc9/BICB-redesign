@@ -18,13 +18,15 @@ function programmeHref(slug: string) {
 export default function Home() {
   return (
     <>
-      <Hero
-        image="/images/hero-community-building.jpg"
-        imageAlt="People gathered around tables during a community building activity"
-        quote='"The betterment of the world can be accomplished through pure and goodly deeds, through commendable and seemly conduct."'
-        quoteAttribution="Bahá'u'lláh"
-        title="Building a Better World Together"
-      />
+      <div className="home-hero">
+        <Hero
+          image="/images/hero-community-building.jpg"
+          imageAlt="People gathered around tables during a community building activity"
+          quote='"The betterment of the world can be accomplished through pure and goodly deeds, through commendable and seemly conduct."'
+          quoteAttribution="Bahá'u'lláh"
+          title="Building a Better World Together"
+        />
+      </div>
 
       <section className="about-section" id="about">
         <div className="about-shell">
