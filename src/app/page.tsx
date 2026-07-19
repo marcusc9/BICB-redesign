@@ -15,6 +15,9 @@ function programmeHref(slug: string) {
   return `/get-involved/${slug}`;
 }
 
+const partnershipSlots = Array.from({ length: 5 }, (_, index) => `Partner logo ${index + 1}`);
+const partnershipGroups = [0, 1] as const;
+
 export default function Home() {
   return (
     <>
@@ -115,6 +118,31 @@ export default function Home() {
       </section>
 
       <NeighbourhoodScrollStory />
+
+      <section className="partnership-strip" aria-labelledby="partnership-strip-title">
+        <div className="partnership-strip__inner">
+          <p className="partnership-strip__label" id="partnership-strip-title">
+            In partnership with
+          </p>
+          <div className="partnership-strip__logos" aria-label="Partner logos awaiting confirmation">
+            <div className="partnership-strip__track">
+              {partnershipGroups.map((group) => (
+                <div
+                  aria-hidden={group === 1}
+                  className="partnership-strip__group"
+                  key={group}
+                >
+                  {partnershipSlots.map((label) => (
+                    <div className="partnership-strip__placeholder" key={`${group}-${label}`}>
+                      <span>{label}</span>
+                    </div>
+                  ))}
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
 
       <section className="section service-section" id="service">
         <div className="section-heading section-heading--center">

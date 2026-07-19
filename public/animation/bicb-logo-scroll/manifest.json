@@ -1,0 +1,46 @@
+{
+  "source": "public/images/bicb-logo.png",
+  "framePattern": "frame-{index}.webp",
+  "frameCount": 120,
+  "fps": 30,
+  "durationSeconds": 4,
+  "width": 760,
+  "height": 760,
+  "componentCount": 9,
+  "format": "webp",
+  "background": "transparent",
+  "storyboard": [
+    {
+      "frames": [
+        0,
+        23
+      ],
+      "beat": "Emergence",
+      "meaning": "The shared pattern becomes visible."
+    },
+    {
+      "frames": [
+        24,
+        53
+      ],
+      "beat": "Learning",
+      "meaning": "Individual paths begin to open."
+    },
+    {
+      "frames": [
+        54,
+        89
+      ],
+      "beat": "Service",
+      "meaning": "The elements flow outward into action."
+    },
+    {
+      "frames": [
+        90,
+        119
+      ],
+      "beat": "Unity",
+      "meaning": "Distinct paths return to one coherent whole."
+    }
+  ]
+}

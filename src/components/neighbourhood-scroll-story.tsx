@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
+import { BicbLogoScrollSequence } from "@/components/bicb-logo-scroll-sequence";
 import { ButtonLink } from "@/components/button-link";
 import { withBasePath } from "@/lib/base-path";
 
@@ -62,8 +63,54 @@ const activityStories = [
 
 export function NeighbourhoodScrollStory() {
   const [activeIndex, setActiveIndex] = useState(0);
+  const [isDarkTheme, setIsDarkTheme] = useState(false);
   const stepRefs = useRef<Array<HTMLElement | null>>([]);
+  const themeTransitionRef = useRef<HTMLDivElement>(null);
   const activeStory = activityStories[activeIndex] ?? activityStories[0];
+
+  useEffect(() => {
+    const transition = themeTransitionRef.current;
+
+    if (!transition) {
+      return;
+    }
+
+    let animationFrame: number | null = null;
+
+    const updateTheme = () => {
+      animationFrame = null;
+
+      const bounds = transition.getBoundingClientRect();
+      const headerHeight = Number.parseFloat(
+        getComputedStyle(document.documentElement).getPropertyValue("--header-height")
+      );
+      const stickyHeight = Math.max(1, window.innerHeight - headerHeight);
+      const scrollDistance = Math.max(1, bounds.height - stickyHeight);
+      const progress = Math.min(1, Math.max(0, (headerHeight - bounds.top) / scrollDistance));
+
+      setIsDarkTheme((currentTheme) =>
+        currentTheme ? progress > 0.28 : progress >= 0.42
+      );
+    };
+
+    const scheduleThemeUpdate = () => {
+      if (animationFrame === null) {
+        animationFrame = window.requestAnimationFrame(updateTheme);
+      }
+    };
+
+    updateTheme();
+    window.addEventListener("scroll", scheduleThemeUpdate, { passive: true });
+    window.addEventListener("resize", scheduleThemeUpdate, { passive: true });
+
+    return () => {
+      window.removeEventListener("scroll", scheduleThemeUpdate);
+      window.removeEventListener("resize", scheduleThemeUpdate);
+      if (animationFrame !== null) {
+        window.cancelAnimationFrame(animationFrame);
+      }
+    };
+  }, []);
 
   useEffect(() => {
     const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -95,7 +142,14 @@ export function NeighbourhoodScrollStory() {
   }, []);
 
   return (
-    <section className="neighbourhood-story" data-active-story={activeStory.backgroundTone} id="neighbourhood-activities">
+    <section
+      className="neighbourhood-story"
+      data-active-story={activeStory.backgroundTone}
+      data-theme-dark={isDarkTheme}
+      id="neighbourhood-activities"
+    >
+      <BicbLogoScrollSequence />
+
       <div className="neighbourhood-story__backdrops" aria-hidden="true">
         {activityStories.map((story, index) => (
           <div
@@ -109,13 +163,15 @@ export function NeighbourhoodScrollStory() {
         ))}
       </div>
 
-      <div className="neighbourhood-story__intro">
-        <p className="eyebrow eyebrow--light">Weekly activities</p>
-        <h2>Two neighbourhoods, one rhythm of community life</h2>
-        <p>
-          Keep scrolling to explore how children, teenagers, youth and adults learn and serve
-          together each week in Ardwick and Moss Side.
-        </p>
+      <div className="neighbourhood-story__theme-transition" ref={themeTransitionRef}>
+        <div className="neighbourhood-story__intro">
+          <p className="eyebrow eyebrow--light">Weekly activities</p>
+          <h2>Two neighbourhoods, one rhythm of community life</h2>
+          <p>
+            Keep scrolling to explore how children, teenagers, youth and adults learn and serve
+            together each week in Ardwick and Moss Side.
+          </p>
+        </div>
       </div>
 
       <div className="neighbourhood-story__layout">

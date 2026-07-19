@@ -39,6 +39,9 @@ importers:
       eslint-config-next:
         specifier: latest
         version: 16.2.10(@typescript-eslint/parser@8.62.1(eslint@9.39.4)(typescript@6.0.3))(eslint@9.39.4)(typescript@6.0.3)
+      sharp:
+        specifier: ^0.34.5
+        version: 0.34.5
       typescript:
         specifier: latest
         version: 6.0.3
