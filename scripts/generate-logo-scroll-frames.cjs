@@ -216,26 +216,18 @@ async function createComponentImages(sourceData, sourceInfo, components, labels)
   );
 }
 
-function componentMarkup(component, componentIndex, frameProgress, glow = false) {
-  const reveal = smoothstep(0, 0.22, frameProgress);
-  const bloomProgress = clamp((frameProgress - 0.08) / 0.92);
-  const bloom = Math.sin(Math.PI * bloomProgress);
-  const depth = 0.78 + (componentIndex % 3) * 0.13;
-  const outwardDistance = 48 * bloom * depth;
-  const tangentialDistance =
-    Math.sin(frameProgress * Math.PI * 2 + componentIndex * 0.72) * 7 * bloom;
-  const directionX = Math.cos(component.radialAngle);
-  const directionY = Math.sin(component.radialAngle);
-  const tangentX = -directionY;
-  const tangentY = directionX;
-  const offsetX = directionX * outwardDistance + tangentX * tangentialDistance;
-  const offsetY = directionY * outwardDistance + tangentY * tangentialDistance - bloom * 3;
-  const rotationDirection = componentIndex % 2 === 0 ? 1 : -1;
-  const rotation =
-    rotationDirection * (1.4 + (componentIndex % 4) * 0.65) * bloom +
-    Math.sin(frameProgress * Math.PI * 2 + componentIndex) * 0.45 * bloom;
-  const scale = (0.94 + reveal * 0.06) * (1 + bloom * depth * 0.022);
-  const opacity = glow ? (0.04 + bloom * 0.12) * reveal : 0.42 + reveal * 0.58;
+function componentReveal(componentIndex, frameProgress) {
+  const revealStart = 0.08 + componentIndex * 0.052;
+  const revealEnd = revealStart + 0.34;
+  return smoothstep(revealStart, revealEnd, frameProgress);
+}
+
+function componentMarkup(component, componentIndex, frameProgress) {
+  const pointReveal = smoothstep(0, 0.07, frameProgress);
+  const reveal = componentReveal(componentIndex, frameProgress);
+  const rotation = (1 - reveal) * -6;
+  const scale = 0.978 + reveal * 0.022;
+  const opacity = pointReveal * (0.42 + reveal * 0.58);
   const renderScale =
     (OUTPUT_SIZE * LOGO_OCCUPANCY) / Math.max(component.sourceWidth, component.sourceHeight);
   const canvasOffsetX = (OUTPUT_SIZE - component.sourceWidth * renderScale) / 2;
@@ -244,16 +236,13 @@ function componentMarkup(component, componentIndex, frameProgress, glow = false)
   const y = canvasOffsetY + component.minimumY * renderScale;
   const width = component.width * renderScale;
   const height = component.height * renderScale;
-  const centreX = x + width / 2;
-  const centreY = y + height / 2;
+  const logoCentre = OUTPUT_SIZE / 2;
 
   return `
-    <g opacity="${opacity.toFixed(4)}"${glow ? ' filter="url(#softGlow)"' : ""}>
-      <g transform="translate(${offsetX.toFixed(3)} ${offsetY.toFixed(3)})">
-        <g transform="rotate(${rotation.toFixed(3)} ${centreX.toFixed(3)} ${centreY.toFixed(3)})">
-          <g transform="translate(${centreX.toFixed(3)} ${centreY.toFixed(3)}) scale(${scale.toFixed(5)}) translate(${(-centreX).toFixed(3)} ${(-centreY).toFixed(3)})">
+    <g opacity="${opacity.toFixed(4)}" clip-path="url(#petal-reveal-${componentIndex})">
+      <g transform="rotate(${rotation.toFixed(3)} ${logoCentre} ${logoCentre})">
+        <g transform="translate(${logoCentre} ${logoCentre}) scale(${scale.toFixed(5)}) translate(${-logoCentre} ${-logoCentre})">
             <image href="${escapeAttribute(component.dataUri)}" x="${x.toFixed(3)}" y="${y.toFixed(3)}" width="${width.toFixed(3)}" height="${height.toFixed(3)}" />
-          </g>
         </g>
       </g>
     </g>`;
@@ -261,21 +250,20 @@ function componentMarkup(component, componentIndex, frameProgress, glow = false)
 
 function createFrameSvg(components, frameIndex) {
   const frameProgress = frameIndex / (FRAME_COUNT - 1);
-  const glowMarkup = components
-    .map((component, index) => componentMarkup(component, index, frameProgress, true))
+  const clipMarkup = components
+    .map((_, index) => {
+      const reveal = componentReveal(index, frameProgress);
+      const radius = 92 + reveal * 330;
+      return `<clipPath id="petal-reveal-${index}"><circle cx="${OUTPUT_SIZE / 2}" cy="${OUTPUT_SIZE / 2}" r="${radius.toFixed(3)}" /></clipPath>`;
+    })
     .join("");
   const logoMarkup = components
-    .map((component, index) => componentMarkup(component, index, frameProgress, false))
+    .map((component, index) => componentMarkup(component, index, frameProgress))
     .join("");
 
   return `
     <svg xmlns="http://www.w3.org/2000/svg" width="${OUTPUT_SIZE}" height="${OUTPUT_SIZE}" viewBox="0 0 ${OUTPUT_SIZE} ${OUTPUT_SIZE}">
-      <defs>
-        <filter id="softGlow" x="-30%" y="-30%" width="160%" height="160%" color-interpolation-filters="sRGB">
-          <feGaussianBlur stdDeviation="7" />
-        </filter>
-      </defs>
-      ${glowMarkup}
+      <defs>${clipMarkup}</defs>
       ${logoMarkup}
     </svg>`;
 }
@@ -362,10 +350,10 @@ async function writeManifest(componentCount) {
     format: "webp",
     background: "transparent",
     storyboard: [
-      { frames: [0, 23], beat: "Emergence", meaning: "The shared pattern becomes visible." },
-      { frames: [24, 53], beat: "Learning", meaning: "Individual paths begin to open." },
-      { frames: [54, 89], beat: "Service", meaning: "The elements flow outward into action." },
-      { frames: [90, 119], beat: "Unity", meaning: "Distinct paths return to one coherent whole." }
+      { frames: [0, 29], beat: "Qualities", meaning: "Nine inner points establish a shared origin." },
+      { frames: [30, 59], beat: "Perception", meaning: "Petals begin tracing outward in a clockwise rhythm." },
+      { frames: [60, 89], beat: "Service", meaning: "The circular pattern grows through collective action." },
+      { frames: [90, 119], beat: "Community", meaning: "Every path settles into one complete whole." }
     ]
   };
 

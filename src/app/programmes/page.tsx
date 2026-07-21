@@ -1,49 +1,81 @@
 import type { Metadata } from "next";
-import { ProgrammeCard } from "@/components/programme-card";
-import { SectionHeading } from "@/components/section-heading";
-import { programmes } from "@/data/site";
+import Image from "next/image";
+import { ButtonLink } from "@/components/button-link";
+import { NeighbourhoodScrollStory } from "@/components/neighbourhood-scroll-story";
+import { withBasePath } from "@/lib/base-path";
 
 export const metadata: Metadata = {
   title: "Programmes",
   description:
-    "Explore children's classes, junior youth groups, youth mentoring and adult volunteer training in Manchester."
+    "See how children's classes, junior youth groups, training and neighbourhood activities form one community-building process in Manchester."
 };
 
 export default function ProgrammesPage() {
-  const learningProgrammes = programmes.filter((programme) => programme.slug === "children" || programme.slug === "junior-youth");
-  const volunteerProgrammes = programmes.filter((programme) => programme.slug === "youth" || programme.slug === "adults");
-
   return (
     <>
-      <section className="page-hero">
-        <div className="page-hero__inner">
-          <div>
+      <section className="programmes-editorial-hero">
+        <div className="programmes-editorial-hero__inner">
+          <div className="programmes-editorial-hero__copy">
             <p className="eyebrow">Programmes</p>
-            <h1>Education for every stage of community life</h1>
-            <p className="page-hero__copy">
-              Programmes support children, junior youth, youth and adults as they learn to develop
-              their capacities and serve their neighbourhoods.
+            <h1>A path of learning, service and community</h1>
+            <p>
+              The programmes are not separate destinations. Together, they form a shared process
+              in which children, junior youth, youth and adults grow in capacity and contribute to
+              the life of their neighbourhoods.
             </p>
+            <div className="button-row">
+              <ButtonLink href="#neighbourhood-activities">Experience the weekly rhythm</ButtonLink>
+              <ButtonLink href="/get-involved" variant="ghost">
+                Find a way to serve
+              </ButtonLink>
+            </div>
+          </div>
+
+          <div className="programmes-editorial-hero__visual" aria-label="Community programme photographs">
+            <figure className="programmes-editorial-hero__photo programmes-editorial-hero__photo--primary">
+              <Image
+                alt="Youth and volunteers gathered at a Manchester community-building camp"
+                fill
+                priority
+                sizes="(max-width: 920px) calc(100vw - 40px), 48vw"
+                src={withBasePath("/images/programmes-youth-camp-collective.jpg")}
+              />
+            </figure>
+            <figure className="programmes-editorial-hero__photo programmes-editorial-hero__photo--secondary">
+              <Image
+                alt="Children, youth and adults creating art together during a community camp"
+                fill
+                sizes="(max-width: 620px) 52vw, 22vw"
+                src={withBasePath("/images/programmes-adult-camp-art.jpg")}
+              />
+            </figure>
+            <div className="programmes-editorial-hero__note">
+              <strong>Four pathways</strong>
+              <span>One shared purpose</span>
+            </div>
           </div>
         </div>
       </section>
 
-      <section className="section">
-        <SectionHeading eyebrow="Children and junior youth" title="Spaces for younger generations" />
-        <div className="programme-grid">
-          {learningProgrammes.map((programme) => (
-            <ProgrammeCard href={`/programmes/${programme.slug}`} key={programme.slug} programme={programme} />
-          ))}
-        </div>
-      </section>
+      <NeighbourhoodScrollStory />
 
-      <section className="section section--band">
-        <div className="section__inner">
-          <SectionHeading eyebrow="Volunteering" title="Training for youth and adults" />
-          <div className="programme-grid">
-            {volunteerProgrammes.map((programme) => (
-              <ProgrammeCard href={`/get-involved/${programme.slug}`} key={programme.slug} programme={programme} />
-            ))}
+      <section className="programmes-next-step">
+        <div className="programmes-next-step__inner">
+          <div>
+            <p className="eyebrow eyebrow--light">Your next step</p>
+            <h2>Begin with one conversation</h2>
+          </div>
+          <div>
+            <p>
+              Whether you are looking for a space for a young person or want to learn how to serve,
+              the team can help you find a natural place to begin.
+            </p>
+            <div className="button-row">
+              <ButtonLink href="/get-involved">Explore ways to serve</ButtonLink>
+              <ButtonLink href="/contact" variant="light">
+                Contact the team
+              </ButtonLink>
+            </div>
           </div>
         </div>
       </section>

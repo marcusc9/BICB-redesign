@@ -2,60 +2,67 @@
 
 import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
-import { BicbLogoScrollSequence } from "@/components/bicb-logo-scroll-sequence";
 import { ButtonLink } from "@/components/button-link";
 import { withBasePath } from "@/lib/base-path";
 
 const activityStories = [
   {
     number: "01",
-    neighbourhood: "Ardwick",
+    neighbourhood: "Children and families",
     title: "Children's classes",
     detail: "Weekly · Ages 5–10",
-    visualTitle: "Ardwick",
-    backgroundTone: "ardwick",
-    image: "/images/about-community.jpg",
-    imageAlt: "Children and adults taking part in a community activity in Ardwick",
-    imagePosition: "center 36%",
+    visualTitle: "Children's Classes",
+    anchor: "childrens-classes",
+    href: "/programmes/children",
+    cta: "Explore children's classes",
+    image: "/images/programmes-childrens-class.jpg",
+    imageAlt: "Children and volunteers gathered for a class and music activity in a Manchester park",
+    imagePosition: "center center",
     description:
       "Children learn about qualities such as kindness, truthfulness, courage and generosity through stories, prayer, music, games and art."
   },
   {
     number: "02",
-    neighbourhood: "Ardwick",
+    neighbourhood: "Junior youth",
     title: "Junior youth groups",
     detail: "Weekly · Ages 11–15",
-    visualTitle: "Moss Side",
-    backgroundTone: "moss-side",
-    image: "/images/community-event.jpg",
-    imageAlt: "Friends and families gathered around tables at a Moss Side community event",
-    imagePosition: "center 42%",
+    visualTitle: "Junior Youth Groups",
+    anchor: "junior-youth-groups",
+    href: "/programmes/junior-youth",
+    cta: "Explore junior youth groups",
+    image: "/images/programmes-junior-youth.jpg",
+    imageAlt: "Junior youth and volunteers consulting around tables during a group activity",
+    imagePosition: "center center",
     description:
       "Young people strengthen their powers of expression, friendship and service as they study together and design practical projects for their neighbourhood."
   },
   {
     number: "03",
-    neighbourhood: "Moss Side",
+    neighbourhood: "Youth and adults",
     title: "Training and accompaniment",
     detail: "Weekly · Youth and adults",
-    visualTitle: "Study Circles",
-    backgroundTone: "study-circles",
-    image: "/images/youth-training.jpg",
-    imageAlt: "Youth studying and consulting together during a training session",
-    imagePosition: "center 44%",
+    visualTitle: "Youth Training",
+    anchor: "training-and-accompaniment",
+    href: "/get-involved/youth",
+    cta: "Explore training and service",
+    image: "/images/programmes-youth-training.jpg",
+    imageAlt: "Youth studying, consulting and creating together during a training session",
+    imagePosition: "56% center",
     description:
       "Youth and adults build the capacity to accompany children, teenagers and families—learning, acting and reflecting together as a team."
   },
   {
     number: "04",
-    neighbourhood: "Moss Side",
+    neighbourhood: "Whole community",
     title: "Neighbourhood gatherings",
     detail: "Regular · All ages",
-    visualTitle: "Youth and Family Camps",
-    backgroundTone: "youth-camps",
-    image: "/images/hero-community-building.jpg",
-    imageAlt: "Youth and families consulting together during a community-building activity",
-    imagePosition: "center 45%",
+    visualTitle: "Adult Volunteers",
+    anchor: "neighbourhood-gatherings",
+    href: "/contact",
+    cta: "Ask about local activities",
+    image: "/images/programmes-adult-volunteers.jpg",
+    imageAlt: "Adults and families gathered in a circle for community consultation",
+    imagePosition: "center center",
     description:
       "Spaces for prayer, conversation, food, arts and community consultation bring neighbours together and help new activities take root."
   }
@@ -63,54 +70,8 @@ const activityStories = [
 
 export function NeighbourhoodScrollStory() {
   const [activeIndex, setActiveIndex] = useState(0);
-  const [isDarkTheme, setIsDarkTheme] = useState(false);
   const stepRefs = useRef<Array<HTMLElement | null>>([]);
-  const themeTransitionRef = useRef<HTMLDivElement>(null);
   const activeStory = activityStories[activeIndex] ?? activityStories[0];
-
-  useEffect(() => {
-    const transition = themeTransitionRef.current;
-
-    if (!transition) {
-      return;
-    }
-
-    let animationFrame: number | null = null;
-
-    const updateTheme = () => {
-      animationFrame = null;
-
-      const bounds = transition.getBoundingClientRect();
-      const headerHeight = Number.parseFloat(
-        getComputedStyle(document.documentElement).getPropertyValue("--header-height")
-      );
-      const stickyHeight = Math.max(1, window.innerHeight - headerHeight);
-      const scrollDistance = Math.max(1, bounds.height - stickyHeight);
-      const progress = Math.min(1, Math.max(0, (headerHeight - bounds.top) / scrollDistance));
-
-      setIsDarkTheme((currentTheme) =>
-        currentTheme ? progress > 0.28 : progress >= 0.42
-      );
-    };
-
-    const scheduleThemeUpdate = () => {
-      if (animationFrame === null) {
-        animationFrame = window.requestAnimationFrame(updateTheme);
-      }
-    };
-
-    updateTheme();
-    window.addEventListener("scroll", scheduleThemeUpdate, { passive: true });
-    window.addEventListener("resize", scheduleThemeUpdate, { passive: true });
-
-    return () => {
-      window.removeEventListener("scroll", scheduleThemeUpdate);
-      window.removeEventListener("resize", scheduleThemeUpdate);
-      if (animationFrame !== null) {
-        window.cancelAnimationFrame(animationFrame);
-      }
-    };
-  }, []);
 
   useEffect(() => {
     const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -143,35 +104,16 @@ export function NeighbourhoodScrollStory() {
 
   return (
     <section
-      className="neighbourhood-story"
-      data-active-story={activeStory.backgroundTone}
-      data-theme-dark={isDarkTheme}
+      className="neighbourhood-story neighbourhood-story--programmes"
       id="neighbourhood-activities"
     >
-      <BicbLogoScrollSequence />
-
-      <div className="neighbourhood-story__backdrops" aria-hidden="true">
-        {activityStories.map((story, index) => (
-          <div
-            className={
-              index === activeIndex
-                ? `neighbourhood-story__backdrop neighbourhood-story__backdrop--${story.backgroundTone} neighbourhood-story__backdrop--active`
-                : `neighbourhood-story__backdrop neighbourhood-story__backdrop--${story.backgroundTone}`
-            }
-            key={`${story.number}-backdrop`}
-          />
-        ))}
-      </div>
-
-      <div className="neighbourhood-story__theme-transition" ref={themeTransitionRef}>
-        <div className="neighbourhood-story__intro">
-          <p className="eyebrow eyebrow--light">Weekly activities</p>
-          <h2>Two neighbourhoods, one rhythm of community life</h2>
-          <p>
-            Keep scrolling to explore how children, teenagers, youth and adults learn and serve
-            together each week in Ardwick and Moss Side.
-          </p>
-        </div>
+      <div className="neighbourhood-story__intro">
+        <p className="eyebrow">Learning in action</p>
+        <h2>One community-building process, experienced at every age</h2>
+        <p>
+          Follow a week of activity across Manchester—from spaces for children and junior youth to
+          training, accompaniment and neighbourhood gatherings.
+        </p>
       </div>
 
       <div className="neighbourhood-story__layout">
@@ -203,6 +145,7 @@ export function NeighbourhoodScrollStory() {
             <article
               className="neighbourhood-story__step"
               data-story-index={index}
+              id={story.anchor}
               key={story.number}
               ref={(element) => {
                 stepRefs.current[index] = element;
@@ -215,11 +158,9 @@ export function NeighbourhoodScrollStory() {
               <h3>{story.title}</h3>
               <p className="neighbourhood-story__detail">{story.detail}</p>
               <p className="neighbourhood-story__description">{story.description}</p>
-              {story.number === "04" ? (
-                <ButtonLink href="/contact" variant="light">
-                  Ask about local activities
-                </ButtonLink>
-              ) : null}
+              <ButtonLink href={story.href} variant="secondary">
+                {story.cta}
+              </ButtonLink>
             </article>
           ))}
         </div>

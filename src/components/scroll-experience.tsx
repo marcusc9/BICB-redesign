@@ -17,7 +17,9 @@ export function ScrollExperience() {
     }
 
     const sections = Array.from(
-      document.querySelectorAll<HTMLElement>("main > section:not(.hero):not(.page-hero)")
+      document.querySelectorAll<HTMLElement>(
+        "main > section:not(.hero):not(.page-hero):not([data-home-transition-about]):not([data-programme-story-root])"
+      )
     );
 
     const observer = new IntersectionObserver(

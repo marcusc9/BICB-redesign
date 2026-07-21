@@ -1,19 +1,13 @@
 import { Mail, Phone } from "lucide-react";
-import Link from "next/link";
+import Image from "next/image";
 import { ButtonLink } from "@/components/button-link";
 import { Hero } from "@/components/hero";
-import { NeighbourhoodScrollStory } from "@/components/neighbourhood-scroll-story";
+import { HomeScrollTransition } from "@/components/home-scroll-transition";
 import { PhotoPlaceholder } from "@/components/photo-placeholder";
+import { ProgrammePathScrollStory } from "@/components/programme-path-scroll-story";
 import { SectionHeading } from "@/components/section-heading";
-import { contactPoints, programmes, schemes, site, values } from "@/data/site";
-
-function programmeHref(slug: string) {
-  if (slug === "children" || slug === "junior-youth") {
-    return `/programmes/${slug}`;
-  }
-
-  return `/get-involved/${slug}`;
-}
+import { contactPoints, schemes, site, values } from "@/data/site";
+import { withBasePath } from "@/lib/base-path";
 
 const partnershipSlots = Array.from({ length: 5 }, (_, index) => `Partner logo ${index + 1}`);
 const partnershipGroups = [0, 1] as const;
@@ -21,33 +15,62 @@ const partnershipGroups = [0, 1] as const;
 export default function Home() {
   return (
     <>
-      <div className="home-hero">
-        <Hero
-          image="/images/hero-community-building.jpg"
-          imageAlt="People gathered around tables during a community building activity"
-          quote='"The betterment of the world can be accomplished through pure and goodly deeds, through commendable and seemly conduct."'
-          quoteAttribution="Bahá'u'lláh"
-          title="Building a Better World Together"
-        />
+      <HomeScrollTransition />
+
+      <div className="home-hero" data-home-transition-hero>
+        <div className="home-hero__stage" data-home-transition-stage>
+          <Hero
+            image="/images/hero-community-building.jpg"
+            imageAlt="People gathered around tables during a community building activity"
+            quote='"The betterment of the world can be accomplished through pure and goodly deeds, through commendable and seemly conduct."'
+            quoteAttribution="Bahá'u'lláh"
+            title="Building a Better World Together"
+          />
+          <div className="home-hero__wash" aria-hidden="true" />
+          <div className="home-hero__chapter" aria-hidden="true">
+            <div className="home-hero__chapter-heading">
+              <strong>Who we are</strong>
+              <Image
+                alt=""
+                className="home-hero__chapter-logo"
+                height={100}
+                src={withBasePath("/images/ruhi-institute-logo.svg")}
+                width={465}
+              />
+            </div>
+            <i />
+          </div>
+        </div>
       </div>
 
-      <section className="about-section" id="about">
+      <section className="about-section about-section--home" data-home-transition-about id="about">
         <div className="about-shell">
           <div className="about-intro">
-            <p className="eyebrow">Who we are</p>
             <h2>Learning, serving and growing together</h2>
             <p className="lead">
               The Bahá&apos;í Institute for Community Building offers educational programmes for
-              people of all ages and backgrounds across Manchester.
+              people from all backgrounds and ages in Manchester. These programmes help to develop
+              vibrant communities as well as enhancing the intellectual, social and spiritual
+              development of individuals.
             </p>
             <p>
-              Through the moral and spiritual education of children and teenagers—and
-              opportunities for youth and adults to develop their capacity for service—the
-              programmes help neighbours build vibrant, united communities. At their heart is a
-              shared process of individual and collective growth: learning together, strengthening
-              relationships and contributing to the transformation of neighbourhood life.
+              These programmes seek to contribute to the unity of the neighbourhood, through the
+              promotion of a community building process which creates an environment for both
+              individual and collective development.
             </p>
-            <PhotoPlaceholder label="Community photograph to come" variant="about" />
+            <p>
+              It provides support for the moral and spiritual education of children and teenagers,
+              in addition to the development of capacity in youth and adults in the neighbourhood
+              to contribute to this process of social transformation.
+            </p>
+            <figure className="about-community-photo">
+              <Image
+                alt="Junior youth and volunteers gathered for a community activity in a Manchester sports hall"
+                fill
+                sizes="(max-width: 920px) calc(100vw - 40px), 52vw"
+                src={withBasePath("/images/junior-youth-group.jpeg")}
+              />
+            </figure>
           </div>
 
           <aside className="inspiration-card" aria-labelledby="inspiration-title">
@@ -72,37 +95,9 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="pathway-section" id="programmes">
-        <div className="pathway-shell">
-          <div className="pathway-intro">
-            <p className="eyebrow">Find your place</p>
-            <h2>Community building begins with a path of service</h2>
-            <p className="lead">
-              From children discovering spiritual qualities to youth and adults learning to serve,
-              each programme helps neighbours strengthen the life of their community.
-            </p>
-          </div>
+      <ProgrammePathScrollStory />
 
-          <div className="pathway-grid">
-            {programmes.map((programme) => (
-              <article className="pathway-item" key={programme.slug}>
-                <PhotoPlaceholder
-                  label={`${programme.title} photograph to come`}
-                  variant="programme"
-                />
-                <span className="pathway-item__meta">{programme.ageRange}</span>
-                <h3>{programme.title}</h3>
-                <p>{programme.summary}</p>
-                <Link className="pathway-item__link" href={programmeHref(programme.slug)}>
-                  Explore this path
-                </Link>
-              </article>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      <section className="section section--warm">
+      <section className="section section--warm" id="holiday-schemes">
         <div className="section__inner">
           <div className="cta-band">
             <div>
@@ -114,47 +109,60 @@ export default function Home() {
               View holiday schemes
             </ButtonLink>
           </div>
-        </div>
-      </section>
 
-      <NeighbourhoodScrollStory />
-
-      <section className="partnership-strip" aria-labelledby="partnership-strip-title">
-        <div className="partnership-strip__inner">
-          <p className="partnership-strip__label" id="partnership-strip-title">
-            In partnership with
-          </p>
-          <div className="partnership-strip__logos" aria-label="Partner logos awaiting confirmation">
-            <div className="partnership-strip__track">
-              {partnershipGroups.map((group) => (
-                <div
-                  aria-hidden={group === 1}
-                  className="partnership-strip__group"
-                  key={group}
-                >
-                  {partnershipSlots.map((label) => (
-                    <div className="partnership-strip__placeholder" key={`${group}-${label}`}>
-                      <span>{label}</span>
+          <div
+            aria-labelledby="partnership-strip-title"
+            className="partnership-strip partnership-strip--inline"
+          >
+            <div className="partnership-strip__inner">
+              <p className="partnership-strip__label" id="partnership-strip-title">
+                In partnership with
+              </p>
+              <div
+                className="partnership-strip__logos"
+                aria-label="Partner logos awaiting confirmation"
+              >
+                <div className="partnership-strip__track">
+                  {partnershipGroups.map((group) => (
+                    <div
+                      aria-hidden={group === 1}
+                      className="partnership-strip__group"
+                      key={group}
+                    >
+                      {partnershipSlots.map((label) => (
+                        <div className="partnership-strip__placeholder" key={`${group}-${label}`}>
+                          <span>{label}</span>
+                        </div>
+                      ))}
                     </div>
                   ))}
                 </div>
-              ))}
+              </div>
             </div>
           </div>
         </div>
       </section>
+
+      {/* Parked for recall: “Neighbourhood Activities Scroll Story”. */}
 
       <section className="section service-section" id="service">
         <div className="section-heading section-heading--center">
           <h2>A path of service, walked together</h2>
         </div>
         <div className="grid grid--4 service-steps">
-          {values.map((value) => (
-            <article className="info-card value-card" key={value.title}>
-              <h3>{value.title}</h3>
-              <p>{value.text}</p>
-            </article>
-          ))}
+          {values.map((value) => {
+            const ValueIcon = value.icon;
+
+            return (
+              <article className="info-card value-card" key={value.title}>
+                <span className="value-card__icon" aria-hidden="true">
+                  <ValueIcon size={22} strokeWidth={1.6} />
+                </span>
+                <h3>{value.title}</h3>
+                <p>{value.text}</p>
+              </article>
+            );
+          })}
         </div>
         <div className="testimony-grid">
           <article className="testimony-card">

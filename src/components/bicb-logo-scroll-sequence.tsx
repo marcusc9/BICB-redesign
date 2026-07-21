@@ -1,11 +1,17 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, type RefObject } from "react";
 import { withBasePath } from "@/lib/base-path";
 
 const FRAME_COUNT = 120;
 const CACHE_LIMIT = 24;
 const FRAME_DIRECTORY = "/animation/bicb-logo-scroll";
+
+type BicbLogoScrollSequenceProps = {
+  enabled?: boolean;
+  progressRootRef?: RefObject<HTMLElement | null>;
+  variant?: "standalone" | "programme-story";
+};
 
 function clamp(value: number, minimum = 0, maximum = 1) {
   return Math.min(maximum, Math.max(minimum, value));
@@ -17,7 +23,11 @@ function framePath(frameIndex: number) {
   );
 }
 
-export function BicbLogoScrollSequence() {
+export function BicbLogoScrollSequence({
+  enabled = true,
+  progressRootRef,
+  variant = "standalone"
+}: BicbLogoScrollSequenceProps = {}) {
   const containerRef = useRef<HTMLDivElement>(null);
   const stageRef = useRef<HTMLDivElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -28,7 +38,7 @@ export function BicbLogoScrollSequence() {
   const [isReady, setIsReady] = useState(false);
   const [reducedMotion, setReducedMotion] = useState(false);
   const [saveData, setSaveData] = useState(false);
-  const useStaticFallback = reducedMotion || saveData;
+  const useStaticFallback = reducedMotion || saveData || !enabled;
 
   useEffect(() => {
     const motionQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
@@ -37,11 +47,16 @@ export function BicbLogoScrollSequence() {
       connection?: { saveData?: boolean };
     };
 
-    updateMotionPreference();
-    setSaveData(Boolean(navigatorWithConnection.connection?.saveData));
+    const preferenceFrame = window.requestAnimationFrame(() => {
+      updateMotionPreference();
+      setSaveData(Boolean(navigatorWithConnection.connection?.saveData));
+    });
     motionQuery.addEventListener("change", updateMotionPreference);
 
-    return () => motionQuery.removeEventListener("change", updateMotionPreference);
+    return () => {
+      window.cancelAnimationFrame(preferenceFrame);
+      motionQuery.removeEventListener("change", updateMotionPreference);
+    };
   }, []);
 
   useEffect(() => {
@@ -59,6 +74,13 @@ export function BicbLogoScrollSequence() {
       return;
     }
 
+    const resolveProgressContainer = () =>
+      variant === "programme-story"
+        ? container.closest<HTMLElement>("[data-programme-story-root]") ??
+          progressRootRef?.current ??
+          container
+        : progressRootRef?.current ?? container;
+    const observedContainer = resolveProgressContainer();
     let isActive = true;
     let isNearViewport = false;
     let currentProgress = useStaticFallback ? 1 : 0;
@@ -134,10 +156,15 @@ export function BicbLogoScrollSequence() {
       const pixelRatio = Math.min(window.devicePixelRatio || 1, 1.5);
       const stageWidth = canvas.width / pixelRatio;
       const stageHeight = canvas.height / pixelRatio;
-      const mobileScale = stageWidth < 620 ? 0.88 : 0.72;
-      const displaySize = Math.min(stageWidth * mobileScale, stageHeight * 0.82);
-      const parallaxX = (currentProgress - 0.5) * (stageWidth < 620 ? 10 : 22);
-      const parallaxY = Math.sin(currentProgress * Math.PI) * -12;
+      const logoScale = variant === "programme-story" ? 1 : stageWidth < 620 ? 0.88 : 0.72;
+      const heightScale = variant === "programme-story" ? 1 : 0.82;
+      const displaySize = Math.min(stageWidth * logoScale, stageHeight * heightScale);
+      const parallaxX =
+        variant === "programme-story"
+          ? 0
+          : (currentProgress - 0.5) * (stageWidth < 620 ? 10 : 22);
+      const parallaxY =
+        variant === "programme-story" ? 0 : Math.sin(currentProgress * Math.PI) * -12;
       const destinationX = (stageWidth - displaySize) / 2 + parallaxX;
       const destinationY = (stageHeight - displaySize) / 2 + parallaxY;
 
@@ -185,16 +212,20 @@ export function BicbLogoScrollSequence() {
     const renderFromScroll = () => {
       animationFrameRef.current = null;
 
-      if (!isNearViewport && !useStaticFallback) {
+      if (!isNearViewport && !useStaticFallback && variant !== "programme-story") {
         return;
       }
 
-      const containerBounds = container.getBoundingClientRect();
-      const stageHeight = stage.getBoundingClientRect().height;
       const headerHeight = Number.parseFloat(
         getComputedStyle(document.documentElement).getPropertyValue("--header-height")
       );
-      const scrollDistance = Math.max(1, containerBounds.height - stageHeight);
+      const progressContainer = resolveProgressContainer();
+      const containerBounds = progressContainer.getBoundingClientRect();
+      const stageHeight =
+        variant === "programme-story"
+          ? Math.max(1, window.innerHeight - headerHeight)
+          : stage.getBoundingClientRect().height;
+      const scrollDistance = Math.max(1, progressContainer.offsetHeight - stageHeight);
       currentProgress = useStaticFallback
         ? 1
         : clamp((headerHeight - containerBounds.top) / scrollDistance);
@@ -205,10 +236,15 @@ export function BicbLogoScrollSequence() {
       latestFrameRef.current = targetFrame;
       container.dataset.frame = String(targetFrame);
       container.dataset.progress = currentProgress.toFixed(3);
-      stage.style.setProperty("--logo-parallax-x", `${(currentProgress - 0.5) * 26}px`);
+      stage.style.setProperty(
+        "--logo-parallax-x",
+        variant === "programme-story" ? "0px" : `${(currentProgress - 0.5) * 26}px`
+      );
       stage.style.setProperty(
         "--logo-parallax-y",
-        `${Math.sin(currentProgress * Math.PI) * -18}px`
+        variant === "programme-story"
+          ? "0px"
+          : `${Math.sin(currentProgress * Math.PI) * -18}px`
       );
       drawNearestLoadedFrame(targetFrame);
       primeFrameWindow(targetFrame);
@@ -231,7 +267,7 @@ export function BicbLogoScrollSequence() {
     );
     const resizeObserver = new ResizeObserver(scheduleRender);
 
-    visibilityObserver.observe(container);
+    visibilityObserver.observe(observedContainer);
     resizeObserver.observe(stage);
     window.addEventListener("scroll", scheduleRender, { passive: true });
     window.addEventListener("resize", scheduleRender, { passive: true });
@@ -255,14 +291,15 @@ export function BicbLogoScrollSequence() {
       window.removeEventListener("resize", scheduleRender);
       if (animationFrameRef.current !== null) {
         window.cancelAnimationFrame(animationFrameRef.current);
+        animationFrameRef.current = null;
       }
     };
-  }, [useStaticFallback]);
+  }, [progressRootRef, useStaticFallback, variant]);
 
   return (
     <div
       aria-hidden="true"
-      className="bicb-logo-sequence"
+      className={`bicb-logo-sequence bicb-logo-sequence--${variant}`}
       data-ready={isReady}
       data-reduced-motion={reducedMotion}
       data-save-data={saveData}
