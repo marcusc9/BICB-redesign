@@ -13,12 +13,7 @@ const heroProperties = [
   "--home-hero-image-saturation",
   "--home-hero-image-brightness",
   "--home-hero-overlay-opacity",
-  "--home-wash-scale",
-  "--home-chapter-x",
-  "--home-chapter-opacity",
-  "--home-chapter-logo-opacity",
-  "--home-chapter-logo-x",
-  "--home-chapter-rule"
+  "--home-wash-scale"
 ];
 const aboutProperties = [
   "--home-intro-y",
@@ -62,8 +57,6 @@ export function HomeScrollTransition() {
       const contentExit = smoothstep(progress / 0.38);
       const imageFade = smoothstep((progress - 0.08) / 0.62);
       const whiteWash = smoothstep((progress - 0.18) / 0.5);
-      const chapterEntrance = smoothstep((progress - 0.38) / 0.34);
-      const chapterLogoEntrance = smoothstep((progress - 0.52) / 0.3);
 
       hero.style.setProperty("--home-hero-content-x", `${(-72 * contentExit).toFixed(2)}vw`);
       hero.style.setProperty("--home-hero-content-opacity", (1 - contentExit).toFixed(4));
@@ -78,19 +71,7 @@ export function HomeScrollTransition() {
       );
       hero.style.setProperty("--home-hero-overlay-opacity", (1 - imageFade).toFixed(4));
       hero.style.setProperty("--home-wash-scale", whiteWash.toFixed(4));
-      hero.style.setProperty("--home-chapter-x", `${(46 * (1 - chapterEntrance)).toFixed(2)}vw`);
-      hero.style.setProperty("--home-chapter-opacity", chapterEntrance.toFixed(4));
-      hero.style.setProperty("--home-chapter-logo-opacity", chapterLogoEntrance.toFixed(4));
-      hero.style.setProperty(
-        "--home-chapter-logo-x",
-        `${(34 * (1 - chapterLogoEntrance)).toFixed(2)}px`
-      );
-      hero.style.setProperty("--home-chapter-rule", chapterEntrance.toFixed(4));
-
-      const aboutRevealDistance = Math.max(1, window.innerHeight * 0.5);
-      const aboutProgress = smoothstep(
-        (window.innerHeight - about.getBoundingClientRect().top) / aboutRevealDistance
-      );
+      const aboutProgress = smoothstep((progress - 0.48) / 0.46);
       const cardProgress = smoothstep((aboutProgress - 0.12) / 0.88);
 
       about.style.setProperty("--home-intro-y", `${(42 * (1 - aboutProgress)).toFixed(2)}px`);

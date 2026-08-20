@@ -742,7 +742,7 @@ main {
 }
 
 .home-hero[data-home-transition="active"] {
-  --home-transition-travel: clamp(480px, 76svh, 700px);
+  --home-transition-travel: clamp(260px, 42svh, 380px);
 
   position: relative;
   height: calc(100svh - var(--header-height) + var(--home-transition-travel));
@@ -784,8 +784,7 @@ main {
   opacity: var(--home-hero-overlay-opacity);
 }
 
-.home-hero__wash,
-.home-hero__chapter {
+.home-hero__wash {
   display: none;
 }
 
@@ -800,66 +799,17 @@ main {
   transform-origin: right center;
 }
 
-.home-hero[data-home-transition="active"] .home-hero__chapter {
-  position: absolute;
-  z-index: 3;
-  inset: 0;
-  display: flex;
-  width: min(var(--max-width), calc(100% - 40px));
-  flex-direction: column;
-  align-items: flex-start;
-  justify-content: flex-end;
-  margin: 0 auto;
-  color: var(--color-ink);
-  opacity: var(--home-chapter-opacity);
-  padding-bottom: clamp(72px, 10vh, 108px);
-  pointer-events: none;
-  transform: translate3d(var(--home-chapter-x), 0, 0);
-}
-
-.home-hero__chapter strong {
-  max-width: 960px;
-  margin-top: 0;
-  font-family: var(--font-heading), Georgia, serif;
-  font-size: clamp(4.8rem, 11vw, 9.5rem);
-  font-weight: 500;
-  letter-spacing: -0.045em;
-  line-height: 0.88;
-}
-
-.home-hero__chapter-heading {
-  display: flex;
-  width: 100%;
-  align-items: flex-end;
-  justify-content: space-between;
-  gap: clamp(28px, 5vw, 72px);
-}
-
-.home-hero__chapter-logo {
-  width: clamp(180px, 24vw, 300px);
-  height: auto;
-  margin-bottom: clamp(2px, 1.6vw, 18px);
-  opacity: var(--home-chapter-logo-opacity);
-  transform: translate3d(var(--home-chapter-logo-x), 0, 0);
-}
-
-.home-hero__chapter i {
-  width: min(440px, 40vw);
-  height: 2px;
-  margin-top: 32px;
-  background: linear-gradient(90deg, var(--color-primary), rgba(42, 124, 111, 0));
-  transform: scaleX(var(--home-chapter-rule));
-  transform-origin: left center;
-}
-
 .about-section--home[data-home-transition="active"] {
-  margin-top: -64px;
-  padding-top: 64px;
+  position: relative;
+  z-index: 1;
+  margin-top: calc(-1 * clamp(610px, 90svh, 760px));
+  background: transparent;
+  padding-top: clamp(52px, 8vw, 78px);
 }
 
 .about-section--home[data-home-transition="active"] .about-intro {
   opacity: var(--home-intro-opacity);
-  transform: translate3d(0, var(--home-intro-y), 0);
+  transform: translate3d(0, calc(var(--home-intro-y) - 16px), 0);
 }
 
 .about-section--home[data-home-transition="active"] .inspiration-card {
@@ -872,8 +822,6 @@ main {
 .home-hero[data-home-transition-state="moving"] .hero__image,
 .home-hero[data-home-transition-state="moving"] .hero__overlay,
 .home-hero[data-home-transition-state="moving"] .home-hero__wash,
-.home-hero[data-home-transition-state="moving"] .home-hero__chapter,
-.home-hero[data-home-transition-state="moving"] .home-hero__chapter-logo,
 .about-section--home[data-home-reveal-state="moving"] .about-intro,
 .about-section--home[data-home-reveal-state="moving"] .inspiration-card {
   will-change: transform, opacity;
@@ -894,31 +842,7 @@ main {
 
 @media (max-width: 620px) {
   .home-hero[data-home-transition="active"] {
-    --home-transition-travel: clamp(380px, 64svh, 520px);
-  }
-
-  .home-hero[data-home-transition="active"] .home-hero__chapter {
-    width: calc(100% - 32px);
-    padding-bottom: 56px;
-  }
-
-  .home-hero__chapter strong {
-    font-size: clamp(4rem, 20vw, 6.5rem);
-  }
-
-  .home-hero__chapter-heading {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 24px;
-  }
-
-  .home-hero__chapter-logo {
-    width: min(220px, 62vw);
-    margin-bottom: 0;
-  }
-
-  .home-hero__chapter i {
-    width: min(300px, 62vw);
+    --home-transition-travel: clamp(220px, 34svh, 320px);
   }
 }
 
@@ -1044,6 +968,15 @@ main {
   box-shadow: var(--shadow-soft);
   color: rgba(255, 255, 255, 0.84);
   padding: clamp(30px, 4vw, 46px);
+}
+
+.inspiration-card__logo {
+  display: block;
+  width: min(250px, 68%);
+  height: auto;
+  margin: 24px auto 0 0;
+  filter: brightness(0) invert(1);
+  opacity: 0.8;
 }
 
 .inspiration-card h3 {
@@ -1714,12 +1647,12 @@ main {
 
 .programme-story__flower {
   position: relative;
-  max-width: 520px;
-  margin-top: 36px;
+  max-width: 360px;
+  margin-top: 24px;
 }
 
 .bicb-logo-sequence--programme-story {
-  height: 390px;
+  height: 220px;
   min-height: 0;
   overflow: visible;
   background: transparent;
@@ -1732,7 +1665,7 @@ main {
 .bicb-logo-sequence--programme-story .bicb-logo-sequence__stage {
   position: relative;
   top: 0;
-  height: 390px;
+  height: 220px;
   min-height: 0;
   background: transparent;
 }
@@ -1759,7 +1692,8 @@ main {
 .programme-story__flower-caption {
   position: relative;
   z-index: 3;
-  margin-top: -8px;
+  border-top: 1px solid rgba(42, 124, 111, 0.22);
+  margin: 0 0 10px;
   color: var(--color-muted);
   font-size: 0.82rem;
   letter-spacing: 0.06em;
@@ -1828,13 +1762,36 @@ main {
   }
 
   .programme-story[data-programme-story="active"] .programme-story__flower {
-    width: min(108%, 520px);
-    margin-top: clamp(20px, 3vh, 34px);
+    display: grid;
+    width: min(82%, 380px);
+    grid-template-columns: clamp(150px, 21vh, 180px) minmax(0, 1fr);
+    align-items: center;
+    gap: 18px;
+    border-top: 1px solid rgba(42, 124, 111, 0.22);
+    margin-top: clamp(16px, 2.5vh, 24px);
+    padding-top: 12px;
   }
 
   .programme-story[data-programme-story="active"] .bicb-logo-sequence--programme-story,
   .programme-story[data-programme-story="active"] .bicb-logo-sequence--programme-story .bicb-logo-sequence__stage {
-    height: clamp(280px, 42vh, 400px);
+    height: clamp(150px, 21vh, 180px);
+  }
+
+  .programme-story[data-programme-story="active"] .programme-story__flower-caption {
+    grid-column: 2;
+    grid-row: 1;
+    align-items: flex-start;
+    flex-direction: column;
+    justify-content: center;
+    gap: 5px;
+    border-top: 0;
+    margin: 0;
+    padding: 0;
+  }
+
+  .programme-story[data-programme-story="active"] .bicb-logo-sequence--programme-story {
+    grid-column: 1;
+    grid-row: 1;
   }
 
   .programme-story[data-programme-story="active"] .programme-story__content {
@@ -2003,12 +1960,12 @@ main {
   }
 
   .programme-story[data-programme-story="active"] .programme-story__flower {
-    margin-top: 14px;
+    margin-top: 12px;
   }
 
   .programme-story[data-programme-story="active"] .bicb-logo-sequence--programme-story,
   .programme-story[data-programme-story="active"] .bicb-logo-sequence--programme-story .bicb-logo-sequence__stage {
-    height: 245px;
+    height: 145px;
   }
 
   .programme-story[data-programme-story="active"] .programme-story__card h3 {

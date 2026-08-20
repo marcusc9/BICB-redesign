@@ -79,8 +79,8 @@ export default function EventsPage() {
         <div className="section__inner">
           <SectionHeading eyebrow="Archive" title="Recent camps and gatherings">
             <p>
-              Historical Wix event URLs redirect here so visitors do not land on broken pages after
-              the move to Vercel.
+              Explore recent residential camps, festivals, seminars and conferences that have
+              supported learning, friendship and service across the community.
             </p>
           </SectionHeading>
           <div className="grid grid--3">

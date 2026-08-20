@@ -27,19 +27,6 @@ export default function Home() {
             title="Building a Better World Together"
           />
           <div className="home-hero__wash" aria-hidden="true" />
-          <div className="home-hero__chapter" aria-hidden="true">
-            <div className="home-hero__chapter-heading">
-              <strong>Who we are</strong>
-              <Image
-                alt=""
-                className="home-hero__chapter-logo"
-                height={100}
-                src={withBasePath("/images/ruhi-institute-logo.svg")}
-                width={465}
-              />
-            </div>
-            <i />
-          </div>
         </div>
       </div>
 
@@ -86,6 +73,14 @@ export default function Home() {
               Faith—especially the oneness of humanity—the programmes are open to and enriched by
               people from every background.
             </p>
+            <Image
+              alt=""
+              aria-hidden="true"
+              className="inspiration-card__logo"
+              height={100}
+              src={withBasePath("/images/ruhi-institute-logo.svg")}
+              width={465}
+            />
             <div className="inspiration-links" aria-label="Find out more">
               <a href="https://www.bahai.org/bahaullah/">Learn about Bahá&apos;u&apos;lláh</a>
               <a href="https://www.bahai.org/">Explore the Bahá&apos;í Faith</a>
@@ -147,7 +142,7 @@ export default function Home() {
 
       <section className="section service-section" id="service">
         <div className="section-heading section-heading--center">
-          <h2>A path of service, walked together</h2>
+          <h2>How a path of service takes shape</h2>
         </div>
         <div className="grid grid--4 service-steps">
           {values.map((value) => {
@@ -166,22 +161,22 @@ export default function Home() {
         </div>
         <div className="testimony-grid">
           <article className="testimony-card">
-            <PhotoPlaceholder label="Portrait photograph to come" variant="portrait" />
+            <PhotoPlaceholder label="Youth volunteer" variant="portrait" />
             <div>
-              <p className="testimony-card__label">Testimony placeholder</p>
+              <p className="testimony-card__label">Youth service</p>
               <blockquote>
-                Add a short reflection from a parent, young person or volunteer about what changed
-                for them through the programme.
+                Young people train as children&apos;s class teachers, junior youth mentors and peer
+                facilitators, building practical skills through study, action and reflection.
               </blockquote>
             </div>
           </article>
           <article className="testimony-card">
-            <PhotoPlaceholder label="Portrait photograph to come" variant="portrait" />
+            <PhotoPlaceholder label="Adult volunteer" variant="portrait" />
             <div>
-              <p className="testimony-card__label">Testimony placeholder</p>
+              <p className="testimony-card__label">Families and adults</p>
               <blockquote>
-                Add a second lived experience here to show the human effect of service, friendship
-                and accompaniment.
+                Adults and families can support parent gatherings, host spaces for prayer and help
+                educational activities grow within their neighbourhoods.
               </blockquote>
             </div>
           </article>

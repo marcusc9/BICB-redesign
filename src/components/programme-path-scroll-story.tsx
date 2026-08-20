@@ -200,15 +200,15 @@ export function ProgrammePathScrollStory() {
           </div>
 
           <div className="programme-story__flower">
+            <div className="programme-story__flower-caption" aria-hidden="true">
+              <span>{flowerStoryBeats[activeIndex]}</span>
+              <strong>{activeIndex + 1} of {programmes.length}</strong>
+            </div>
             <BicbLogoScrollSequence
               enabled={isEnhanced}
               progressRootRef={rootRef}
               variant="programme-story"
             />
-            <div className="programme-story__flower-caption" aria-hidden="true">
-              <span>{flowerStoryBeats[activeIndex]}</span>
-              <strong>{activeIndex + 1} of {programmes.length}</strong>
-            </div>
           </div>
         </div>
 

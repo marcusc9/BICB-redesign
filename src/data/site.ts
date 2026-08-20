@@ -114,8 +114,8 @@ export const programmes: Programme[] = [
     quote:
       "Children are the greatest treasure a community can possess, for in them are the promise and guarantee of the future.",
     description: [
-      "Children's classes are offered for children aged 5-10. Lessons focus on the development of spiritual qualities and their application in family and community life.",
-      "Classes are taught through arts and crafts, songs, storytelling, prayers, memorisation and games. There is no cost for attending."
+      "Children's classes welcome children aged 5-10. Each lesson explores a spiritual quality and how it can be expressed in family and community life.",
+      "Arts and crafts, songs, stories, prayers, memorisation and games make learning active and joyful. Classes are offered at no cost."
     ],
     activities: ["Arts and crafts", "Songs and prayers", "Storytelling", "Games", "Memorisation"],
     ctaLabel: "Register a child",
@@ -133,10 +133,10 @@ export const programmes: Programme[] = [
     quote:
       "At an age of promise, junior youth can develop the powers needed to work for the common good.",
     description: [
-      "Junior youth groups help young people develop a twofold sense of purpose: to grow intellectually, socially and spiritually, and to contribute to the transformation of their community.",
-      "Groups study stories about young people around the world, consult together, and design service projects in their neighbourhood."
+      "Junior youth groups help young people develop a twofold sense of purpose: growing intellectually, socially and spiritually while contributing to their community.",
+      "With an older youth serving as a mentor, groups study stories, strengthen expression and critical thinking, consult together and carry out local service projects."
     ],
-    activities: ["Study of inspiring texts", "Service projects", "Arts", "Consultation", "Family festivals"],
+    activities: ["Study of inspiring texts", "Service projects", "Creative arts", "Consultation", "Family festivals"],
     ctaLabel: "Register a junior youth",
     registrationUrl: registrationLinks.juniorYouth,
     image: "/images/junior-youth-group.jpeg",
@@ -152,8 +152,8 @@ export const programmes: Programme[] = [
     quote:
       "Young people aspire for spiritual and intellectual growth and to make a contribution to the fortunes of humanity.",
     description: [
-      "Youth are invited to train to serve as children's class teachers, junior youth animators and facilitators of spaces for their peers.",
-      "Training happens through residential camps, weekly sessions and neighbourhood study circles."
+      "Youth can train to serve as children's class teachers, junior youth mentors and facilitators of spaces for their peers.",
+      "Weekly study circles and residential camps combine spiritual insight with practical skills, helping friends see themselves as active contributors to community life."
     ],
     activities: ["Children's class teaching", "Junior youth mentoring", "Study circles", "Neighbourhood visits", "Peer spaces"],
     ctaLabel: "Volunteer as a youth",
@@ -171,8 +171,8 @@ export const programmes: Programme[] = [
     quote:
       "A process that seeks to raise capacity within a population to take charge of its own spiritual, social and intellectual development.",
     description: [
-      "Adults and families play a key role in building communities. They can train to serve as facilitators for parent gatherings, children's class teachers and hosts of spaces for collective prayer.",
-      "Training draws on Ruhi Institute materials and helps friends advance on a path of service together."
+      "Adults and families play an essential role in community building. They can support parent gatherings, teach children's classes and host spaces for collective prayer.",
+      "Weekly study circles and periodic family camps use Ruhi Institute materials to help friends gain the knowledge, qualities and practical skills needed to serve together."
     ],
     activities: ["Parent gatherings", "Children's classes", "Prayer spaces", "Family festivals", "Study circles"],
     ctaLabel: "Volunteer as an adult",
@@ -282,9 +282,9 @@ export const eventArchive: EventItem[] = [
 ];
 
 export const schemes = {
-  title: "Placeholder",
+  title: "Summer Schemes",
   summary:
-    "Two inspiring weekends of workshops, arts, sports and service activities for children and teens, focused on making good choices and creating a beautiful environment.",
+    "Holiday activities for children and teens aged 4-14, with workshops, arts, sports and service centred on making good choices and creating a beautiful environment.",
   image: "/images/summer-schemes.jpeg",
   locations: [
     {
