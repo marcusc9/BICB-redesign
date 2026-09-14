@@ -34,13 +34,6 @@ const programmePhotography: Record<
   }
 };
 
-const flowerStoryBeats = [
-  "Qualities take root",
-  "Perception expands",
-  "Capacity becomes service",
-  "One shared process"
-];
-
 function clamp(value: number, minimum = 0, maximum = 1) {
   return Math.min(maximum, Math.max(minimum, value));
 }
@@ -77,6 +70,7 @@ export function ProgrammePathScrollStory() {
       if (!shouldEnhance) {
         activeIndexRef.current = 0;
         setActiveIndex(0);
+        delete root.dataset.programmeStoryStep;
         root.style.removeProperty("--programme-story-progress");
       }
     };
@@ -89,6 +83,7 @@ export function ProgrammePathScrollStory() {
       desktopQuery.removeEventListener("change", updateEnhancement);
       motionQuery.removeEventListener("change", updateEnhancement);
       delete root.dataset.programmeStory;
+      delete root.dataset.programmeStoryStep;
       root.style.removeProperty("--programme-story-progress");
     };
   }, []);
@@ -158,27 +153,6 @@ export function ProgrammePathScrollStory() {
     };
   }, [isEnhanced]);
 
-  const moveToStage = (index: number) => {
-    const root = rootRef.current;
-
-    if (!root || !isEnhanced) {
-      return;
-    }
-
-    const headerHeight = Number.parseFloat(
-      getComputedStyle(document.documentElement).getPropertyValue("--header-height")
-    );
-    const stickyHeight = Math.max(1, window.innerHeight - headerHeight);
-    const scrollDistance = Math.max(1, root.offsetHeight - stickyHeight);
-    const rootTop = window.scrollY + root.getBoundingClientRect().top - headerHeight;
-    const stageProgress = (index + 0.5) / programmes.length;
-
-    window.scrollTo({
-      behavior: "smooth",
-      top: rootTop + scrollDistance * stageProgress
-    });
-  };
-
   return (
     <section
       className="pathway-section programme-story"
@@ -189,26 +163,25 @@ export function ProgrammePathScrollStory() {
       <div className="pathway-shell programme-story__stage">
         <div className="pathway-intro programme-story__intro">
           <div className="programme-story__intro-copy">
-            <h2>Community building begins with a path of service</h2>
-            <p className="lead">
-              From children discovering spiritual qualities to youth and adults learning to serve,
-              each programme helps neighbours strengthen the life of their community.
-            </p>
-            <ButtonLink className="pathway-intro__button" href="/programmes">
-              Explore all programmes
-            </ButtonLink>
+            <h2>Community building begins with a <span className="programme-story__title-path">path of service</span></h2>
           </div>
 
-          <div className="programme-story__flower">
-            <div className="programme-story__flower-caption" aria-hidden="true">
-              <span>{flowerStoryBeats[activeIndex]}</span>
-              <strong>{activeIndex + 1} of {programmes.length}</strong>
-            </div>
+          <div aria-hidden="true" className="programme-story__flower">
             <BicbLogoScrollSequence
               enabled={isEnhanced}
               progressRootRef={rootRef}
               variant="programme-story"
             />
+          </div>
+
+          <div
+            aria-hidden={isEnhanced && activeIndex !== programmes.length - 1}
+            className="programme-story__outro"
+            inert={isEnhanced && activeIndex !== programmes.length - 1}
+          >
+            <ButtonLink className="pathway-intro__button" href="/programmes">
+              Explore all programmes
+            </ButtonLink>
           </div>
         </div>
 
@@ -253,26 +226,9 @@ export function ProgrammePathScrollStory() {
               );
             })}
           </div>
-
-          <ol className="programme-story__progress" aria-label="Programme story progress">
-            {programmes.map((programme, index) => {
-              const state = index < activeIndex ? "complete" : index === activeIndex ? "active" : "upcoming";
-
-              return (
-                <li data-state={state} key={programme.slug}>
-                  <button
-                    aria-current={index === activeIndex ? "step" : undefined}
-                    onClick={() => moveToStage(index)}
-                    type="button"
-                  >
-                    <span aria-hidden="true" />
-                    <small>{programme.audience}</small>
-                  </button>
-                </li>
-              );
-            })}
-          </ol>
         </div>
+
+
       </div>
     </section>
   );
