@@ -43,6 +43,7 @@ export function HomeScrollTransition() {
     }
 
     const motionQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
+    const layoutQuery = window.matchMedia("(min-width: 768px)");
     const finePointerQuery = window.matchMedia("(pointer: fine)");
     let lenis: Lenis | null = null;
     let nativeAnimationFrame: number | null = null;
@@ -54,11 +55,11 @@ export function HomeScrollTransition() {
       const transitionStart = Math.max(0, hero.offsetTop - stickyTop);
       const transitionDistance = Math.max(1, hero.offsetHeight - stage.offsetHeight);
       const progress = clamp((scrollPosition - transitionStart) / transitionDistance);
-      const contentExit = smoothstep(progress / 0.38);
-      const imageFade = smoothstep((progress - 0.08) / 0.62);
-      const whiteWash = smoothstep((progress - 0.18) / 0.5);
+      const contentExit = smoothstep(progress / 0.9);
+      const imageFade = smoothstep((progress - 0.1) / 0.85);
+      const whiteWash = smoothstep((progress - 0.2) / 0.72);
 
-      hero.style.setProperty("--home-hero-content-x", `${(-72 * contentExit).toFixed(2)}vw`);
+      hero.style.setProperty("--home-hero-content-x", `${(-42 * contentExit).toFixed(2)}vw`);
       hero.style.setProperty("--home-hero-content-opacity", (1 - contentExit).toFixed(4));
       hero.style.setProperty("--home-hero-image-scale", (1 + 0.035 * imageFade).toFixed(4));
       hero.style.setProperty(
@@ -71,12 +72,12 @@ export function HomeScrollTransition() {
       );
       hero.style.setProperty("--home-hero-overlay-opacity", (1 - imageFade).toFixed(4));
       hero.style.setProperty("--home-wash-scale", whiteWash.toFixed(4));
-      const aboutProgress = smoothstep((progress - 0.48) / 0.46);
-      const cardProgress = smoothstep((aboutProgress - 0.12) / 0.88);
+      const aboutProgress = smoothstep((progress - 0.18) / 0.72);
+      const cardProgress = smoothstep((aboutProgress - 0.08) / 0.92);
 
-      about.style.setProperty("--home-intro-y", `${(42 * (1 - aboutProgress)).toFixed(2)}px`);
+      about.style.setProperty("--home-intro-y", `${(76 * (1 - aboutProgress)).toFixed(2)}px`);
       about.style.setProperty("--home-intro-opacity", aboutProgress.toFixed(4));
-      about.style.setProperty("--home-card-y", `${(58 * (1 - cardProgress)).toFixed(2)}px`);
+      about.style.setProperty("--home-card-y", `${(108 * (1 - cardProgress)).toFixed(2)}px`);
       about.style.setProperty("--home-card-scale", (0.985 + 0.015 * cardProgress).toFixed(4));
       about.style.setProperty("--home-card-opacity", cardProgress.toFixed(4));
 
@@ -136,7 +137,7 @@ export function HomeScrollTransition() {
     const activate = () => {
       deactivate();
 
-      if (motionQuery.matches) {
+      if (motionQuery.matches || !layoutQuery.matches) {
         return;
       }
 
@@ -158,7 +159,22 @@ export function HomeScrollTransition() {
           lerp: 0.115,
           smoothWheel: true,
           stopInertiaOnNavigate: true,
-          syncTouch: false
+          syncTouch: false,
+          virtualScroll: (data) => {
+            const stickyTop = Number.parseFloat(window.getComputedStyle(stage).top) || 0;
+            const transitionStart = Math.max(0, hero.offsetTop - stickyTop);
+            const transitionEnd = transitionStart + Math.max(1, hero.offsetHeight - stage.offsetHeight);
+            const isInsideHeroTransition =
+              window.scrollY >= transitionStart && window.scrollY <= transitionEnd;
+
+            if (isInsideHeroTransition) {
+              const maximumDelta = Math.max(36, window.innerHeight * 0.14);
+              data.deltaY =
+                Math.sign(data.deltaY) * Math.min(Math.abs(data.deltaY) * 0.32, maximumDelta);
+            }
+
+            return true;
+          }
         });
         document.documentElement.classList.add("home-lenis-active");
         lenis.on("scroll", (currentLenis) => updateTransition(currentLenis.animatedScroll));
@@ -168,11 +184,13 @@ export function HomeScrollTransition() {
     };
 
     motionQuery.addEventListener("change", activate);
+    layoutQuery.addEventListener("change", activate);
     finePointerQuery.addEventListener("change", activate);
     activate();
 
     return () => {
       motionQuery.removeEventListener("change", activate);
+      layoutQuery.removeEventListener("change", activate);
       finePointerQuery.removeEventListener("change", activate);
       deactivate();
     };

@@ -22,9 +22,11 @@ export default function Home() {
           <Hero
             image="/images/hero-community-building.jpg"
             imageAlt="People gathered around tables during a community building activity"
-            quote='"The betterment of the world can be accomplished through pure and goodly deeds, through commendable and seemly conduct."'
-            quoteAttribution="Bahá'u'lláh"
             title="Building a Better World Together"
+            quote="“The betterment of the world can be accomplished through pure and goodly deeds, through commendable and seemly conduct.”"
+            quoteAttribution="Bahá’u’lláh"
+            primaryCta={{ label: "Find a programme", href: "/programmes" }}
+            secondaryCta={{ label: "Find activities near me", href: "/contact" }}
           />
           <div className="home-hero__wash" aria-hidden="true" />
         </div>
@@ -60,9 +62,9 @@ export default function Home() {
             </figure>
           </div>
 
-          <aside className="inspiration-card" aria-labelledby="inspiration-title">
+          <aside className="home-inspiration" aria-labelledby="inspiration-title">
             <p className="eyebrow eyebrow--light">Our inspiration</p>
-            <h3 id="inspiration-title">Growing ourselves while serving others</h3>
+            <h2 id="inspiration-title">Growing ourselves while serving others</h2>
             <p>
               The programmes draw on educational materials developed by the Ruhi Institute and
               used around the world. They invite participants to nurture their own spiritual and
@@ -70,13 +72,13 @@ export default function Home() {
             </p>
             <p>
               Inspired by the Writings of Bahá&apos;u&apos;lláh and the principles of the Bahá&apos;í
-              Faith—especially the oneness of humanity—the programmes are open to and enriched by
-              people from every background.
+              Faith—especially the oneness of humanity—the programmes are open to and enriched
+              by people from every background.
             </p>
             <Image
               alt=""
               aria-hidden="true"
-              className="inspiration-card__logo"
+              className="inspiration-band__logo"
               height={100}
               src={withBasePath("/images/ruhi-institute-logo.svg")}
               width={465}
@@ -101,7 +103,7 @@ export default function Home() {
               <p>{schemes.summary}</p>
             </div>
             <ButtonLink href="/schemes" variant="primary">
-              View holiday schemes
+              See dates and locations
             </ButtonLink>
           </div>
 
@@ -183,11 +185,11 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="section">
+      <section className="section" id="contact">
         <SectionHeading eyebrow="Contact" title="Start with your neighbourhood">
           <p>
-            For general questions, registrations or local activity details, contact the team by
-            email or phone.
+            Choose the nearest area below. If you are not sure where to start, email us and we will
+            help you find the right local activity.
           </p>
         </SectionHeading>
         <div className="grid grid--4">
@@ -204,7 +206,7 @@ export default function Home() {
         <div className="button-row" style={{ marginTop: 24 }}>
           <ButtonLink href={`mailto:${site.email}`} variant="secondary">
             <Mail aria-hidden="true" size={18} />
-            Email us
+            Email us for help
           </ButtonLink>
           <ButtonLink href="/contact" variant="ghost">
             Contact details
